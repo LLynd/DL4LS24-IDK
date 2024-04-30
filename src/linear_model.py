@@ -1,0 +1,6 @@
+import sklearn as skl
+
+def get_linear_data_and_model(config):
+    data = ...
+    model == ...
+    return data, model
