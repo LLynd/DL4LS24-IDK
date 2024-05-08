@@ -23,14 +23,22 @@
 ## Course Information
 ...
 
+Tutors: Marcin Możejko, ...
+
 ## Author contributions
 **Team IDK:**
-Asia Dąbrowska - 
-Antoni Janowski - 
-Miriam Lipniacka - 
-Łukasz Niedźwiedzki - 
-Anna Szymik - 
-Maciej Wiśniewski - 
+
+Asia Dąbrowska - EDA
+
+Antoni Janowski - Coding
+
+Miriam Lipniacka - Coding
+
+Łukasz Niedźwiedzki - Coding
+
+Anna Szymik - EDA
+
+Maciej Wiśniewski - EDA
 
 ## Contact
 ...

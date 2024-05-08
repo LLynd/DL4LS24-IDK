@@ -18,6 +18,7 @@ class Config:
     method: str = 'linear' #metoda jakiej uzywamy, możemy to też zmienić na podawanie obiektu klasyfikatora jesli tak wolicie
     wandb_project: str = '...'
     wandb_user: str = '...'
+    wandb_api_key: str = '...'
     
     n_epochs: int = 500
     learning_rate: float = 1e-6
