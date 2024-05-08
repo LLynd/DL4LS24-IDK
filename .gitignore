@@ -164,3 +164,6 @@ data/*
 
 results/*
 !results/.gitkeep
+
+venv_DL4LS24
+venv_DL4LS24/*

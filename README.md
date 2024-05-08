@@ -1,5 +1,7 @@
 # DL4LS24-IDK
-Deep Learning for Life Sciences 2024 - Team Assignment - IDK Team
+**Cell type classification based on gene expression data**
+
+**Team Assignment for Deep Learning for Life Sciences 2024 course @MIM UW**
 
 # Introduction
 
@@ -18,7 +20,17 @@ Deep Learning for Life Sciences 2024 - Team Assignment - IDK Team
 ## Running your own experiments
 
 # Authors
-
 ## Course Information
+...
 
 ## Author contributions
+**Team IDK:**
+Asia Dąbrowska - 
+Antoni Janowski - 
+Miriam Lipniacka - 
+Łukasz Niedźwiedzki - 
+Anna Szymik - 
+Maciej Wiśniewski - 
+
+## Contact
+...

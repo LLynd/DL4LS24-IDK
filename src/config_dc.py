@@ -18,13 +18,19 @@ class Config:
     method: str = 'linear' #metoda jakiej uzywamy, możemy to też zmienić na podawanie obiektu klasyfikatora jesli tak wolicie
     wandb_project: str = '...'
     wandb_user: str = '...'
+    
     n_epochs: int = 500
-    col_batch_size: int = 100
     learning_rate: float = 1e-6
+    test_size: float = 0.2
+
+    hidden_size: int = 100
+    batch_size: int = 32
+    
+    run_uncertainty_analysis: bool = False
+    num_samples_uncertainty: int = 100
     
     res_path: str = str(os.path.join('results', 'EXP_'+str(datetime.today().strftime('%Y-%m-%d_%H:%M:%S'))+'.npy')) #zmienic na destination path czy cos
     cfg_path: str = str(os.path.join('data', 'configs', 'CFG_EXP_'+str(datetime.today().strftime('%Y-%m-%d_%H:%M:%S'))+'.json'))
-    plot_history_path: str = str(os.path.join('results', 'EXP_'+str(datetime.today().strftime('%Y-%m-%d_%H:%M:%S'))+'_history.png'))
     
-    anndaata_path: str = 'cell_data.h5ad'
-    imgdata_path: str = os.path.join('data', 'train', 'images_masks')
+    ann_data_path: str = 'cell_data.h5ad'
+    img_data_path: str = os.path.join('data', 'train', 'images_masks')
