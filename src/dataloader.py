@@ -40,7 +40,7 @@ class CustomDataLoader():
         pass
     
     def get_data(self, preprocess=True):
-        if self.config.method == 'xgboost' or self.config.method == 'linear':
+        if self.config.method == 'xgboost' or self.config.method == 'linear' or self.config.method == 'logistic':
             data = self.load_anndata()
             if preprocess:
                 data = self.preprocess_anndata_linear_xgboost(data)

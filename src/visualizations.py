@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import torch
 
-
 def visualize_uncertainties(uncertainties):
     plt.hist(uncertainties, bins=20)
     plt.xlabel('Uncertainty')

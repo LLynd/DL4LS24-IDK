@@ -4,7 +4,7 @@ import wandb
 
 config = Config(
     seed = 42,
-    method = 'linear',
+    method = 'logistic',
     wandb_api_key = "",
     num_epochs=10,
     learning_rate=1e-6,

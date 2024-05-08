@@ -146,5 +146,5 @@ def run_experiment(config: Config):
     if config.run_uncertainty_analysis is True:
         uncertainties = run_uncertainty_analysis(model, dataloader, config.num_samples_uncertainty)
 
-    run.log_model(path=r'results/model.h5', name='model')
+    #run.log_model(path=r'results/model.h5', name='model')
     wandb.finish()
