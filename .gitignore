@@ -167,3 +167,5 @@ results/*
 
 venv_DL4LS24
 venv_DL4LS24/*
+train/
+graphics/
