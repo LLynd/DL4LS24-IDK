@@ -9,7 +9,7 @@ def visualize_uncertainties(uncertainties):
     plt.title('Distribution of Uncertainties')
     plt.show()
 
-def bar_plot_accuracy_per_class(preds, labels):
+def bar_plot_accuracy_per_class(preds, labels, title):
     '''
     Input: numpy arrays of model predictions and labels
     '''
@@ -50,5 +50,6 @@ def bar_plot_accuracy_per_class(preds, labels):
 
     plt.xlabel('Class')
     plt.ylabel('Accuracy')
-    plt.title('Accuracy per class')
-    plt.show()
+    plt.title(title)
+    #plt.show()
+    return plt
