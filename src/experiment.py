@@ -22,7 +22,17 @@ def run_experiment(config: Config):
     
     if config.method == 'xgboost':
         data, model = get_xgboost_data_and_model(config)
-        train, test = data[0], data[1]
+        
+        if config.test_size is None:
+            X_train, y_train = data[0], data[1]
+        else:
+            X_train, y_train, X_test, y_test = data[0], data[1], data[2], data[3]
+        
+        model.fit(X_train, y_train)
+        
+        if config.test_size is not None:
+            y_pred = model.predict(X_test)
+            y_pred_proba = model.predict_proba(X_test)
         
         # setup parameters for xgboost
         param = {
@@ -42,21 +52,37 @@ def run_experiment(config: Config):
         watchlist = [(xg_train, "train"), (xg_test, "test")]
 
         # pass WandbCallback to the booster to log its configs and metrics
-        bst = xgb.train(
-            param, xg_train, num_round, evals=watchlist,
-            callbacks=[WandbCallback()]
-        )pred = bst.predict(xg_test)
+        
     
     elif config.method == 'mlp':
-        ...
+        data, model, criterion, optimizer = get_mlp_data_and_model(config)
+        
+        if config.test_size is None:
+            X_train, y_train = data[0], data[1]
+        else:
+            X_train, y_train, X_test, y_test = data[0], data[1], data[2], data[3]
+        
         
     elif config.method == 'linear':
-        ...
-
-    accuracy, macro_f1, auc, average_precision = evaluate_model(y_pred, y_pred_proba, y_test)
+        data, model, criterion, optimizer = get_linear_data_and_model(config)
+        
+        if config.test_size is None:
+            X_train, y_train = data[0], data[1]
+        else:
+            X_train, y_train, X_test, y_test = data[0], data[1], data[2], data[3]
     
-    wandb.summary["Accuracy"] = accuracy
-    wandb.summary["Macro F1"] = macro_f1
+    elif config.method == 'starling':
+        pass
+    
+    elif config.method == 'cnn':
+        pass
+        
+
+    if config.test_size is not None:
+        accuracy, macro_f1, auc, average_precision = evaluate_model(y_pred, y_pred_proba, y_test)
+        
+        wandb.summary["Accuracy"] = accuracy
+        wandb.summary["Macro F1"] = macro_f1
     
     if config.run_uncertainty_analysis is True:
         uncertainties = run_uncertainty_analysis(model, dataloader, config.num_samples_uncertainty)

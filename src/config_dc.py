@@ -27,9 +27,19 @@ class Config:
     hidden_size: int = 100
     batch_size: int = 32
     
+    #uncertainty analysis params
     run_uncertainty_analysis: bool = False
     num_samples_uncertainty: int = 100
     
+    #xgboost params
+    base_score: float=0.5
+    colsample_bylevel: int=1
+    colsample_bytree: int=1
+    max_depth: int=3
+    min_child_weight: int=1
+    gamma: float=0.0 
+    
+    #paths
     res_path: str = str(os.path.join('results', 'EXP_'+str(datetime.today().strftime('%Y-%m-%d_%H:%M:%S'))+'.npy')) #zmienic na destination path czy cos
     cfg_path: str = str(os.path.join('data', 'configs', 'CFG_EXP_'+str(datetime.today().strftime('%Y-%m-%d_%H:%M:%S'))+'.json'))
     

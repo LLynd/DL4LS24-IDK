@@ -50,4 +50,5 @@ def get_linear_data_and_model(config):
     criterion = nn.CrossEntropyLoss()  # Cross-entropy loss for classification
     optimizer = optim.Adam(model.parameters(), lr=0.003)
 
-    return X_tensor, Y_tensor, model, criterion, optimizer
+    data = (X_train, Y_train) #test size?
+    return data, model, criterion, optimizer
