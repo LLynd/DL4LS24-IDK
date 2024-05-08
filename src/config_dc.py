@@ -16,11 +16,10 @@ from dataclasses_json import dataclass_json
 class Config:
     seed: int = 42
     method: str = 'linear' #metoda jakiej uzywamy, możemy to też zmienić na podawanie obiektu klasyfikatora jesli tak wolicie
-    wandb_project: str = '...'
-    wandb_user: str = '...'
+    wandb_project: str = 'DL4LS24-IDK'
     wandb_api_key: str = '...'
     
-    n_epochs: int = 500
+    num_epochs: int = 500
     learning_rate: float = 1e-6
     test_size: float = 0.2
 
@@ -39,9 +38,13 @@ class Config:
     min_child_weight: int=1
     gamma: float=0.0 
     
+    dropout: bool = False
+    
     #paths
     res_path: str = str(os.path.join('results', 'EXP_'+str(datetime.today().strftime('%Y-%m-%d_%H:%M:%S'))+'.npy')) #zmienic na destination path czy cos
     cfg_path: str = str(os.path.join('data', 'configs', 'CFG_EXP_'+str(datetime.today().strftime('%Y-%m-%d_%H:%M:%S'))+'.json'))
     
     ann_data_path: str = 'cell_data.h5ad'
     img_data_path: str = os.path.join('data', 'train', 'images_masks')
+    
+    run_name: str = 'EXP_'+str(datetime.today().strftime('%Y-%m-%d_%H:%M:%S'))

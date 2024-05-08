@@ -1,12 +1,10 @@
 import xgboost as xgb
 
-from src.dataloader import CustomDataLoader
+from dataloader import CustomDataLoader
 
 def get_xgboost_data_and_model(config):
     dl = CustomDataLoader(config)
-    data = dl.load_xgboost(preprocess=True, 
-                           split=config.test_size)
-    
+    data = dl.get_data(preprocess=True)
     model = xgb.XGBClassifier(base_score=config.base_score, 
                               colsample_bylevel=config.colsample_bylevel, 
                               colsample_bytree=config.colsample_bytree,
@@ -17,4 +15,3 @@ def get_xgboost_data_and_model(config):
                               seed=config.seed)
     
     return data, model
-

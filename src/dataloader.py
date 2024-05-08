@@ -12,41 +12,18 @@ from sklearn.model_selection import train_test_split
 class CustomDataLoader():
     def __init__(self, config):
         self.config = config
-        self.dataset = self.load_h5ad()
         
-        self.img_data_path = os.path.join(config.imgdata_path, 'img')
-        self.mask_data_path = os.path.join(config.imgdata_path, 'masks')
+        self.img_data_path = os.path.join(config.img_data_path, 'img')
+        self.mask_data_path = os.path.join(config.img_data_path, 'masks')
             
     def load_anndata(self):    
-        return anndata.read_h5ad(self.config.anndata_path)
-    
-    def load_starling(self):
-        self.dataset.X = anndata.layers['exprs']
-        return self.dataset
-    
-    def load_xgboost(self, preprocess=True, split=False):
-        data = self.dataset.to_df()    
-        if preprocess:
-            # select features etc
-            pass
-        if split:
-            train, test = self.split_tabular(data)
-            return xgb.DMatrix(train), xgb.DMatrix(test)
-        
-        return xgb.DMatrix(data)
-        
-    def load_linear(self, preprocess=True, split=False):
-        pass
-        
-    def split_tabular(self, data):
-        # split into train and test according to config
-        pass
+        return anndata.read_h5ad(self.config.ann_data_path)
     
     def transform_image(self, img):
         return np.arcsinh(img / 5.)
     
-    def load_img_and_mask(self, imgID):
-        image_name = self.dataset.obs.iloc[imgID]['image']
+    def load_img_and_mask(self, data, imgID):
+        image_name = data.obs.iloc[imgID]['image']
         
         image_path = os.path.join(self.img_data_path, image_name)
         mask_path = os.path.join(self.mask_data_path, image_name)
@@ -62,12 +39,23 @@ class CustomDataLoader():
     def load_img_batch(self, batchsize, split=False, transform=True):
         pass
     
-    def get_data(self):
+    def get_data(self, preprocess=True):
+        if self.config.method == 'xgboost' or self.config.method == 'linear':
+            data = self.load_anndata()   
+            if preprocess:
+                data = self.preprocess_anndata_linear_xgboost(data)
+            return data
         
+        elif self.config.method == 'starling':
+            data = self.load_anndata()
+            if preprocess:
+                data = self.preprocess_anndata_starling(data)
+            return data
         
-    def preprocess_anndata(self):
-        data = self.load_anndata()
-        
+        elif self.config.method == 'cnn':
+            pass
+           
+    def preprocess_anndata_linear_xgboost(self, data):
         df = data.obs
         counts = data.layers['counts']
         exprs = data.layers['exprs']
@@ -108,12 +96,16 @@ class CustomDataLoader():
 
         X=df.copy()
 
-        seed = 10
-        test_size = self.config.test_size
-        X_train, X_test, Y_train, Y_test = train_test_split(X, y_encoded, test_size=test_size, random_state=seed)
-
-        X_train=X_train.to_numpy()
-        X_test=X_test.to_numpy()
+        seed = self.config.seed
+        if self.config.test_size is not None:  
+            X_train, X_test, Y_train, Y_test = train_test_split(X, y_encoded, 
+                                                                test_size=self.config.test_size, 
+                                                                random_state=seed)
+            X_train = X_train.to_numpy()
+            X_test = X_test.to_numpy()
+        else:
+            X_train,  Y_train = X, y_encoded
+            X_train = X_train.to_numpy()
 
         print(X_train.shape,X_test.shape)
 
@@ -125,12 +117,22 @@ class CustomDataLoader():
         nan_indices = np.isnan(X_train)
         num_nans = np.sum(nan_indices)
         
-        nan_indices = np.isnan(X_test)
-        num_nans = np.sum(nan_indices)
+        if self.config.test_size is not None:
+            nan_indices = np.isnan(X_test)
+            num_nans = np.sum(nan_indices)
 
-        column_means = np.nanmean(X_test, axis=0)
+            column_means = np.nanmean(X_test, axis=0)
 
-        # We replace NaN values with column means
-        X_test[nan_indices] = np.take(column_means, np.where(nan_indices)[1])
-        nan_indices = np.isnan(X_test)
-        num_nans = np.sum(nan_indices)
+            # We replace NaN values with column means
+            X_test[nan_indices] = np.take(column_means, np.where(nan_indices)[1])
+            nan_indices = np.isnan(X_test)
+            num_nans = np.sum(nan_indices)
+        
+        if self.config.test_size is not None: 
+            return X_train, Y_train, X_test, Y_test
+        else:
+            return X_train, Y_train
+        
+    def preprocess_anndata_starling(self, data):
+        data.X = anndata.layers['exprs']
+        return data

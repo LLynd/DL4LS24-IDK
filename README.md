@@ -17,7 +17,27 @@
 
 ## Setting up
 
-## Running your own experiments
+Pre-requirements: Linux system or Windows with WSL2 installed
+
+To setup the virtual environment, run the setup.sh script with:
+
+`./setup.sh`
+
+To activate the created virtual environment, run:
+
+`source venv_DL4LS24/bin/activate`
+
+## Running your own experiments (Pre - Training)
+
+To run experiments, You need to create a free account on WanDB.ai.
+
+- configs
+- necessary functions
+- example scripts
+- 
+## Running inference on new data
+
+The results are saved in the results subfolder.
 
 # Authors
 ## Course Information

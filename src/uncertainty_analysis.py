@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 import torch
 
-from src.visualizations import visualize_uncertainties
+from visualizations import visualize_uncertainties
 
 
 def uncertainty_analysis(model, dataloader, num_samples=100):
