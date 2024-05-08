@@ -15,13 +15,15 @@ from dataclasses_json import dataclass_json
 @dataclass
 class Config:
     seed: int = 42
-    method: str = 'linear' #metoda jakiej uzywamy, możemy to też zmienić na podawanie obiektu klasyfikatora jesli tak wolicie
+    method: str = 'linear' #xgboost, linear, cnn, starling, logistic, mlp
     wandb_project: str = 'DL4LS24-IDK'
     wandb_api_key: str = '...'
     
     num_epochs: int = 500
     learning_rate: float = 1e-6
     test_size: float = 0.2
+    
+    num_clusters: int = 20
 
     hidden_size: int = 100
     batch_size: int = 32

@@ -29,12 +29,12 @@ To activate the created virtual environment, run:
 
 ## Running your own experiments (Pre - Training)
 
-To run experiments, You need to create a free account on WanDB.ai.
+To run experiments, You need to create a free account on WanDB.ai. 
 
-- configs
-- necessary functions
+Experiments are controled by instances of the Config dataclass. In this config, you specify all the constants of a particular experiment, including the method, wandb project and test set split. To run the experiment you then parse the created config to the `run_experiment` function. In case this is your first time running the experiments on a particular machine, you will need to login into wandb.
+
 - example scripts
-- 
+
 ## Running inference on new data
 
 The results are saved in the results subfolder.

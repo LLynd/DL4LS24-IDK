@@ -8,3 +8,4 @@ def visualize_uncertainties(uncertainties):
     plt.ylabel('Frequency')
     plt.title('Distribution of Uncertainties')
     plt.show()
+    
