@@ -6,7 +6,7 @@ import torch.optim as optim
 
 from torch.utils.data import DataLoader, TensorDataset
 
-from dataloader import CustomDataLoader
+from src.dataloader import CustomDataLoader
 
 
 class LinearClassifier(nn.Module):

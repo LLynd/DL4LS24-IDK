@@ -20,7 +20,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import average_precision_score
 from starling import starling, utility
-from custom_dataloader import CustomDataLoader
+from src.dataloader import CustomDataLoader
 
 
 def get_starling_model_and_data(config):

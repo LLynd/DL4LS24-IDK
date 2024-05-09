@@ -1,9 +1,11 @@
-from config_dc import Config
-from dataloader import CustomDataLoader
-from prepare_output_df import new_predictions, results_to_df
-from linear_model import get_model_for_inference
+from src.config_dc import Config
+from src.dataloader import CustomDataLoader
+from src.prepare_output_df import new_predictions, results_to_df
+from src.linear_model import get_model_for_inference
+
 import pickle 
 import torch
+import xgboost as xgb
 
 
 def load_model(path, method, inp_shape, config):

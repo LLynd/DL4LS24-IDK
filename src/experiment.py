@@ -3,15 +3,15 @@ import wandb
 import os
 import pickle
 
-from gradient_boosting_model import get_xgboost_data_and_model
-from mlp_model import get_mlp_data_and_model, train_mlp, predict_mlp
-from linear_model import get_linear_data_and_model, train_linear, predict_linear
-from config_dc import Config
-from dataloader import CustomDataLoader
-from visualizations import *
-from evaluate_model import evaluate_model
-from uncertainty_analysis import run_uncertainty_analysis
-from logistic_regression_model import get_logistic_data_and_model
+from src.gradient_boosting_model import get_xgboost_data_and_model
+from src.mlp_model import get_mlp_data_and_model, train_mlp, predict_mlp
+from src.linear_model import get_linear_data_and_model, train_linear, predict_linear
+from src.config_dc import Config
+from src.dataloader import CustomDataLoader
+from src.visualizations import *
+from src.evaluate_model import evaluate_model
+from src.uncertainty_analysis import run_uncertainty_analysis
+from src.logistic_regression_model import get_logistic_data_and_model
 
 
 def run_experiment(config: Config):
@@ -48,7 +48,7 @@ def run_experiment(config: Config):
         if config.test_size is not None:
             y_pred = model.predict(X_test)
             plot = bar_plot_accuracy_per_class(y_pred, y_test, 'Accuracy per class xgboost')
-            wandb.log({"Accuracy per class xgboost": plot})
+            #wandb.log({"Accuracy per class xgboost": plot})
             y_pred_proba = model.predict_proba(X_test)
         
     elif config.method == 'logistic':
@@ -75,7 +75,7 @@ def run_experiment(config: Config):
         if config.test_size is not None:
             y_pred = model.predict(X_test)
             plot = bar_plot_accuracy_per_class(y_pred, y_test, 'Accuracy per class Logistic Regresion')
-            wandb.log({"Accuracy per class Logistic Regresion": plot})
+            #wandb.log({"Accuracy per class Logistic Regresion": plot})
             y_pred_proba = model.predict_proba(X_test)
         
     elif config.method == 'mlp':
@@ -129,7 +129,7 @@ def run_experiment(config: Config):
         if config.test_size is not None:
             y_pred, y_pred_proba = predict_linear(model, X_test, y_test)
             plot = bar_plot_accuracy_per_class(y_pred, y_test, 'Accuracy per class MLP')
-            wandb.log({"Accuracy per class MLP": plot})
+            #wandb.log({"Accuracy per class MLP": plot})
         
     elif config.method == 'starling':
         pass
@@ -157,7 +157,7 @@ def run_experiment(config: Config):
     if config.method == 'linear':
         torch.save(model.state_dict(), config.model_path+'.pt')
     elif config.method == 'xgboost':
-        
+        model.save_model(config.model_path+'.bst')
     elif config.method == 'starling':
         pass
     elif config.method == 'logistic':

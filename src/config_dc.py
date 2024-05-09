@@ -18,7 +18,7 @@ class Config:
     method: str = 'linear' #xgboost, linear, cnn, starling, logistic, mlp
     wandb_project: str = 'DL4LS24-IDK'
     wandb_api_key: str = '...'
-    inference: bool = False
+    infer: bool = False
     
     num_classes: int = 14
     
@@ -51,5 +51,6 @@ class Config:
     
     ann_data_path: str = 'cell_data.h5ad'
     img_data_path: str = os.path.join('data', 'train', 'images_masks')
+    model_path: str = os.path.join('results', 'model')
     
     run_name: str = 'EXP_'+str(datetime.today().strftime('%Y-%m-%d_%H:%M:%S'))

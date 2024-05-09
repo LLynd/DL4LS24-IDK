@@ -1,6 +1,6 @@
 from sklearn.linear_model import LogisticRegression
 
-from dataloader import CustomDataLoader
+from src.dataloader import CustomDataLoader
 
 def get_logistic_data_and_model(config):
     dl = CustomDataLoader(config)

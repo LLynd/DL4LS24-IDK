@@ -1,3 +1,4 @@
+import init
 from src.config_dc import Config
 from src.inference import run_inference
 
