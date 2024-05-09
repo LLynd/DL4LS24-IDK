@@ -8,3 +8,6 @@
 8. Uncertainty analyses for other models
 9. Optional - cnn model
 10. Optional - unify plotting
+11. Optional - fixing starling or sth
+12. Unify naming conventions
+13. Investigate the dataloader, look for possible noncritical bugs and maybe improve preprocessing

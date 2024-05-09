@@ -10,7 +10,7 @@ import xgboost as xgb
 
 def load_model(path, method, inp_shape, config):
     if method == 'xgboost':
-        model = xgb.Booster()
+        model = xgb.XGBClassifier()
         model.load_model(path)
         
     elif method == 'logistic':
@@ -29,9 +29,9 @@ def load_model(path, method, inp_shape, config):
       
 def run_inference(config):
     cdl = CustomDataLoader(config)
-    X = cdl.load_data(config, preprocess=True)
+    X = cdl.get_data(preprocess=True)
     inp_shape = X.shape[1]
-    model = load_model(config.saved_model_path, config.method, inp_shape, config)
+    model = load_model(config.model_path, config.method, inp_shape, config)
     if config.method == 'xgboost' or config.method == 'logistic': 
         results = model.predict(X)
         probabilities = model.predict_proba(X)

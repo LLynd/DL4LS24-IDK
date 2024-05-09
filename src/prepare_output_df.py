@@ -21,7 +21,7 @@ def new_predictions(model, sample_ids, df_X, encoder):
 
     return output_df
 
-def results_to_df(results,, probabilities, sample_ids, encoder):
+def results_to_df(results, probabilities, sample_ids, encoder):
     output_df = pd.DataFrame()
     output_df['sample_id'] = sample_ids
     output_df['predictions'] = results

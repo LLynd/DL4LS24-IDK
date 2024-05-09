@@ -77,7 +77,7 @@ class CustomDataLoader():
             Y = df['cell_labels']
             columns_to_remove=['SampleId','image','sample_id','SlideId','BatchId','SubBatchId','Batch','Box.Description','cell_labels','celltypes']
         else:
-            columns_to_remove=['SampleId','image','sample_id','SlideId','BatchId','SubBatchId','Batch','Box.Description','cell_labels']
+            columns_to_remove=['SampleId','image','sample_id','SlideId','BatchId','SubBatchId','Batch','Box.Description','cell_labels','celltypes']
 
         df = df.drop(columns=columns_to_remove)
         df['CD20_patches'] = df['CD20_patches'].replace('', '0')
@@ -96,22 +96,27 @@ class CustomDataLoader():
         df = df.drop(columns=['Indication','Study'])
         category_columns = df.select_dtypes(include='category').columns.tolist()
 
-        encoder = LabelEncoder()
-        y_encoded = encoder.fit_transform(Y)
-        self.label_encoder = encoder
-        num_classes = len(np.unique(y_encoded))
-
+        if self.config.infer is False:
+            encoder = LabelEncoder()
+            y_encoded = encoder.fit_transform(Y)
+            self.label_encoder = encoder
+            num_classes = len(np.unique(y_encoded))
+            self.config.num_classes = num_classes
         X=df.copy()
 
+        print(df.columns)
         seed = self.config.seed
         if self.config.infer is True:
             X_train = X.to_numpy()
+            print(X_train.shape)
         elif self.config.test_size is not None and self.config.infer is False:  
+            print(X.shape())
             X_train, X_test, Y_train, Y_test = train_test_split(X, y_encoded, 
                                                                 test_size=self.config.test_size, 
                                                                 random_state=seed)
             X_train = X_train.to_numpy()
             X_test = X_test.to_numpy()
+            print(X_train.shape,X_test.shape)
         elif self.config.test_size is None and self.config.infer is False:
             X_train,  Y_train = X, y_encoded
             X_train = X_train.to_numpy()
@@ -126,7 +131,7 @@ class CustomDataLoader():
         nan_indices = np.isnan(X_train)
         num_nans = np.sum(nan_indices)
         
-        if self.config.test_size is not None:
+        if self.config.test_size is not None and self.config.infer is False:
             nan_indices = np.isnan(X_test)
             num_nans = np.sum(nan_indices)
 
