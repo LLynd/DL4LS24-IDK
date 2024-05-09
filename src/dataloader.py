@@ -15,7 +15,10 @@ class CustomDataLoader():
         
         self.img_data_path = os.path.join(config.img_data_path, 'img')
         self.mask_data_path = os.path.join(config.img_data_path, 'masks')
-            
+
+        self.sample_ids = None
+        self.label_encoder = None
+        
     def load_anndata(self):    
         return anndata.read_h5ad(self.config.ann_data_path)
     
@@ -69,9 +72,12 @@ class CustomDataLoader():
         non_float_columns = df.select_dtypes(exclude='float').columns.tolist()
         category_columns = df.select_dtypes(include='category').columns.tolist()
         ids = df['sample_id']
-        Y = df['cell_labels']
-
-        columns_to_remove=['SampleId','image','sample_id','SlideId','BatchId','SubBatchId','Batch','Box.Description','cell_labels','celltypes']
+        self.sample_ids = ids
+        if self.config.infer is False:
+            Y = df['cell_labels']
+            columns_to_remove=['SampleId','image','sample_id','SlideId','BatchId','SubBatchId','Batch','Box.Description','cell_labels','celltypes']
+        else:
+            columns_to_remove=['SampleId','image','sample_id','SlideId','BatchId','SubBatchId','Batch','Box.Description','cell_labels']
 
         df = df.drop(columns=columns_to_remove)
         df['CD20_patches'] = df['CD20_patches'].replace('', '0')
@@ -92,22 +98,25 @@ class CustomDataLoader():
 
         encoder = LabelEncoder()
         y_encoded = encoder.fit_transform(Y)
+        self.label_encoder = encoder
         num_classes = len(np.unique(y_encoded))
 
         X=df.copy()
 
         seed = self.config.seed
-        if self.config.test_size is not None:  
+        if self.config.infer is True:
+            X_train = X.to_numpy()
+        elif self.config.test_size is not None and self.config.infer is False:  
             X_train, X_test, Y_train, Y_test = train_test_split(X, y_encoded, 
                                                                 test_size=self.config.test_size, 
                                                                 random_state=seed)
             X_train = X_train.to_numpy()
             X_test = X_test.to_numpy()
-        else:
+        elif self.config.test_size is None and self.config.infer is False:
             X_train,  Y_train = X, y_encoded
             X_train = X_train.to_numpy()
 
-        print(X_train.shape,X_test.shape)
+        #print(X_train.shape,X_test.shape)
 
         nan_indices = np.isnan(X_train)
         num_nans = np.sum(nan_indices)
@@ -128,9 +137,11 @@ class CustomDataLoader():
             nan_indices = np.isnan(X_test)
             num_nans = np.sum(nan_indices)
         
-        if self.config.test_size is not None: 
+        if self.config.infer is True:
+            return X_train
+        elif self.config.test_size is not None and self.config.infer is False: 
             return X_train, Y_train, X_test, Y_test
-        else:
+        elif self.config.test_size is None and self.config.infer is False: 
             return X_train, Y_train
         
     def preprocess_anndata_starling(self, data):

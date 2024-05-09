@@ -47,7 +47,7 @@ def get_linear_data_and_model(config):
         X_train, Y_train = cdl.get_data(preprocess=True)
     
     num_classes = len(set(Y_train))
-    
+    config.num_classes = num_classes
     X_tensor = torch.tensor(X_train, dtype=torch.float32)
     Y_tensor = torch.tensor(Y_train, dtype=torch.long)  
 
@@ -73,6 +73,17 @@ def get_linear_data_and_model(config):
         
     return data, dataloader, model, criterion, optimizer
 
+def get_model_for_inference(config, inp_shape):
+    if config.dropout:
+        model = LinearClassifierWithDropout(input_size=inp_shape, 
+                                            hidden_size=config.hidden_size, 
+                                            num_classes=config.num_classes)
+    elif not config.dropout:
+        model = LinearClassifier(input_size=inp_shape,
+                                hidden_size=config.hidden_size, 
+                                num_classes=config.num_classes)
+
+    return model
 def train_linear(model, dataloader, criterion, optimizer, num_epochs=10):
     model.train()
     for epoch in range(num_epochs):

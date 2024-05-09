@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 
-def new_predictions(model,sample_ids,df_X,encoder):
+def new_predictions(model, sample_ids, df_X, encoder):
     output_df = pd.DataFrame()
     X_np = df_X.to_numpy()
     X_tensor = torch.tensor(X_np, dtype=torch.float32)
@@ -18,5 +18,14 @@ def new_predictions(model,sample_ids,df_X,encoder):
     output_df['predictions'] = predictions
     output_df['predictions'] = encoder.inverse_transform(output_df['predictions'])
     output_df['predictions'] = predictions_probabilities
+
+    return output_df
+
+def results_to_df(results,, probabilities, sample_ids, encoder):
+    output_df = pd.DataFrame()
+    output_df['sample_id'] = sample_ids
+    output_df['predictions'] = results
+    output_df['predictions'] = encoder.inverse_transform(output_df['predictions'])
+    output_df['predictions'] = probabilities
 
     return output_df

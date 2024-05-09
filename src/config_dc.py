@@ -18,6 +18,9 @@ class Config:
     method: str = 'linear' #xgboost, linear, cnn, starling, logistic, mlp
     wandb_project: str = 'DL4LS24-IDK'
     wandb_api_key: str = '...'
+    inference: bool = False
+    
+    num_classes: int = 14
     
     num_epochs: int = 500
     learning_rate: float = 1e-6

@@ -1,6 +1,7 @@
 import numpy as np
 import wandb
 import os
+import pickle
 
 from gradient_boosting_model import get_xgboost_data_and_model
 from mlp_model import get_mlp_data_and_model, train_mlp, predict_mlp
@@ -14,7 +15,7 @@ from logistic_regression_model import get_logistic_data_and_model
 
 
 def run_experiment(config: Config):
-    #wandb.login(config.wandb_api_key)
+    wandb.login()
     
     if config.method == 'xgboost':
         data, model = get_xgboost_data_and_model(config)
@@ -153,4 +154,14 @@ def run_experiment(config: Config):
         uncertainties = run_uncertainty_analysis(model, dataloader, config.num_samples_uncertainty)
 
     #run.log_model(path=r'results/model.h5', name='model')
+    if config.method == 'linear':
+        torch.save(model.state_dict(), config.model_path+'.pt')
+    elif config.method == 'xgboost':
+        
+    elif config.method == 'starling':
+        pass
+    elif config.method == 'logistic':
+        with open(config.model_path+'.pkl', 'wb') as f:
+            pickle.dump(model, f)
+     
     wandb.finish()
