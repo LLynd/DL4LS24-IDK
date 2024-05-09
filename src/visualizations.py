@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import torch
 
+
 def visualize_uncertainties(uncertainties):
     plt.hist(uncertainties, bins=20)
     plt.xlabel('Uncertainty')
@@ -51,4 +52,25 @@ def bar_plot_accuracy_per_class(preds, labels):
     plt.xlabel('Class')
     plt.ylabel('Accuracy')
     plt.title('Accuracy per class')
+    plt.show()
+    
+def plot_doublet_histo(pruned_df):
+    plt.hist(pruned_df['doublet_prob'], bins=50)  # Adjust the number of bins as needed
+    plt.xlabel('Values')  
+    plt.ylabel('Frequency')  
+    plt.title('Histogram ')  
+    plt.grid(True)  
+    custom_ticks = np.linspace(0, 1, 31) 
+    plt.xticks(custom_ticks,rotation='vertical')
+    plt.show()
+    
+def plot_starling_output_histo(final_df):
+    plt.hist(final_df['labels'], bins=10, alpha=0.5, label='Starling Labels')
+    plt.hist(final_df['cell_labels'], bins=10, alpha=0.5, label='True Cell Labels')
+    plt.xlabel('Values')
+    plt.ylabel('Frequency')
+    plt.title('Histograms of output labels and true cell labels')
+    plt.legend()
+    plt.xticks(rotation='vertical') 
+    plt.grid(True)
     plt.show()

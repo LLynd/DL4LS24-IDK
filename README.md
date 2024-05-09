@@ -7,6 +7,17 @@
 
 ## Problem description
 
+This project is focused on assigning cell types to specific cells using images prepared by a technique called Imaging Mass Cytometry (IMC). The main goal is to accurately identify and categorize different cell types present in the images. To achieve this, we use different machine learning methods.
+
+The IMC technique was performed on a panel of 40 markers. These markers are specific characteristics or features that help us distinguish between different cell types. For this project, we’re focusing on three types of cells: tumor cells, mural cells, and leukocytes (a type of white blood cell).
+
+The data used in this project includes several components:
+Images: These are the pictures of the cells that we get from the IMC.
+
+Expression Matrix: This is a table that shows the amount of each marker in each cell. Each row in the table represents a cell, and the columns represent the different markers.
+
+Ground Truth Cell Annotation: This is our reference information that tells us the actual type of each cell.
+
 ## Data
 
 ## Methodology
