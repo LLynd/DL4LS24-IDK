@@ -46,6 +46,8 @@ def run_experiment(config: Config):
         
         if config.test_size is not None:
             y_pred = model.predict(X_test)
+            plot = bar_plot_accuracy_per_class(y_pred, y_test, 'Accuracy per class xgboost')
+            wandb.log({"Accuracy per class xgboost": plot})
             y_pred_proba = model.predict_proba(X_test)
         
     elif config.method == 'logistic':
@@ -71,6 +73,8 @@ def run_experiment(config: Config):
         
         if config.test_size is not None:
             y_pred = model.predict(X_test)
+            plot = bar_plot_accuracy_per_class(y_pred, y_test, 'Accuracy per class Logistic Regresion')
+            wandb.log({"Accuracy per class Logistic Regresion": plot})
             y_pred_proba = model.predict_proba(X_test)
         
     elif config.method == 'mlp':
@@ -123,6 +127,8 @@ def run_experiment(config: Config):
 
         if config.test_size is not None:
             y_pred, y_pred_proba = predict_linear(model, X_test, y_test)
+            plot = bar_plot_accuracy_per_class(y_pred, y_test, 'Accuracy per class MLP')
+            wandb.log({"Accuracy per class MLP": plot})
         
     elif config.method == 'starling':
         pass
